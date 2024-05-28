@@ -1,0 +1,633 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+*, html {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+
+}
+
+body{
+    background-color: #f4f4f4;
+}
+
+/* Header */
+nav{
+    background-color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center; /* Untuk memastikan vertikal centering */
+    padding: 1rem;
+    position: fixed;
+    width: 100%;
+}
+
+nav .logo{
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+nav .logo a{
+    text-decoration: none;
+    color: black;
+    font-family: "Poppins", sans-serif;
+    font-weight: 600;
+}
+
+nav ul{
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    margin-right: 10px; /* Memberikan margin agar terdapat ruang di kanan */
+    gap: 2rem;
+    font-family: "Poppins", sans-serif;
+
+}
+
+nav ul li {
+    margin-right: 10px; /* Memberikan ruang antara setiap item pada menu */
+}
+
+nav ul li a{
+    color: #585858;
+    text-decoration: none;
+    font-weight: 600;
+    font-family: "Poppins", sans-serif;
+}
+
+nav ul li a:hover{
+    color: black;
+}
+
+.main {
+    display: flex; 
+    gap: 1rem;
+}
+
+.main .login a{
+    text-decoration: none;
+    color: black;
+    font-family: "Poppins", sans-serif;
+    display: inline-block;
+    padding: 10px 20px; /* Sesuaikan padding sesuai kebutuhan */
+    border: 2px solid #0E3124; /* Menggunakan border 2px solid dan warna hijau */
+    border-radius: 10px; /* Memberikan radius sudut 5px */
+    transition: all 0.3s ease; /* Transisi untuk efek hover */
+}
+
+.main .login a:hover{
+    background-color: #0E3124; /* Ubah warna latar saat di hover */
+    color: white; /* Ubah warna teks saat di hover */
+}
+
+/* Styling untuk pop-up */
+.popup-logres {
+    display: none;
+    z-index: 999;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.popup-content {
+    position: relative;
+    background-color: white;
+    width: 400px;
+    height: 500px;
+    margin: 50px auto;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.popup-content .close-btn{
+    display: flex;
+    justify-content: flex-end;
+    cursor: pointer;
+    font-size: 30px;
+    color: black;
+}
+
+.popup-content h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.popup-content a h6{
+    color: black;
+    padding-bottom: 1rem;
+    text-decoration: underline;
+}
+
+.popup-content form {
+    display: flex;
+    flex-direction: column;
+}
+
+.popup-content .form-group {
+    margin-bottom: 15px;
+}
+
+.popup-content .form-group
+input[type="text"],
+input[type="password"],
+input[type="email"],
+input[type="number"],   
+input[type="number1"],   
+button {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    width: 100%     ;
+}
+
+.popup-content button {
+    background-color: #0E3124;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-family: "Poppins", sans-serif;
+    font-weight: 500;
+    border-radius: 5px;
+}
+
+.popup-content .form-group button:hover {
+    background-color: #0056b3;
+}
+
+.main .register a{
+    text-decoration: none;
+    color: white;
+    background-color: #0E3124;
+    font-family: "Poppins", sans-serif;
+    display: inline-block;
+    padding: 10px 20px; /* Sesuaikan padding sesuai kebutuhan */
+    border: 2px solid #0E3124; /* Menggunakan border 2px solid dan warna hijau */
+    border-radius: 10px; /* Memberikan radius sudut 5px */
+}
+
+.main .icon{
+    display: none;
+}
+
+.main .icon i{
+    font-size: 28px;
+}
+
+nav ul li.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+nav ul li.dropdown .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: white;
+    min-width: 160px;
+    z-index: 1;
+    list-style: none;
+    padding: 0;
+}
+
+nav ul li.dropdown .dropdown-content li {
+    padding: 8px 12px;
+}
+
+nav ul li.dropdown .dropdown-content li a {
+    color: #585858;
+    text-decoration: none;
+    display: block;
+}
+
+nav ul li.dropdown .dropdown-content li a:hover{
+    color: black;
+}
+
+
+/* Homepage */
+.fotohomepage {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    background-color: white;
+    padding: 2rem;
+    padding-top: 6rem;
+    /* Background atau border bisa ditambahkan di sini jika diperlukan */
+}
+
+.fotohomepage img {
+    width: 800px;
+    height: auto;
+    object-fit: cover;
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1); /* Tambahkan shadow */
+    border-radius: 10px; /* Untuk mempertahankan radius sudut */
+}
+
+/* Testimoni */
+.testimoni-header{
+    display: flex;
+    justify-content: center;
+    text-decoration: underline;
+    padding: 1rem;
+}
+
+.testimoni-container .testimoni-slide{
+    display: flex;
+}
+
+.testimoni-container .testimoni-slide .testimoni-item {
+    border: 2px solid #ccc; /* Tambahkan border */
+    border-radius: 8px; /* Tambahkan radius sudut */
+    width: 100%; /* Lebar satu item dalam slider */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 20px;
+    margin: 10px;
+    background-color: white;
+    flex: 0 0 calc(95% / 3);
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Tambahkan shadow */
+}
+
+.testimoni-item h4 {
+    margin-bottom: 5px;
+}
+
+.testimoni-item p {
+    margin-bottom: 10px;
+}
+
+.testimoni-item span {
+    font-style: italic;
+    color: #888;
+}
+
+.tulis-ulasan{
+    display: flex;
+    justify-content: center;
+    padding:2rem;
+    gap: 20px;
+}
+
+.tulis-ulasan .tulis h3 a{
+    color: black;
+    text-decoration: underline;
+}
+
+.tulis-ulasan .baca h3 a{
+    color: black;
+    text-decoration: underline;
+}
+
+/* Kontak */
+.kontak-header h4{
+    display: flex;
+    justify-content: center;
+    text-decoration: underline;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    margin: 0;
+}
+
+.maps{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.maps a img{
+    border: 2px solid #ccc;
+}
+
+.info-kontak{
+    padding-top: 2rem;
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    padding-bottom: 2rem;
+}
+
+.info-kontak .kontak-nomer{
+    border: 2px solid #ccc; /* Tambahkan border */
+    border-radius: 8px; /* Tambahkan radius sudut */
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    width: 250px;
+    background-color: white;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Tambahkan shadow */
+}
+
+.info-kontak .alamat{
+    border: 2px solid #ccc; /* Tambahkan border */
+    border-radius: 8px; /* Tambahkan radius sudut */
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    width: 250px;
+    background-color: white;
+}
+
+.info-kontak .jam{
+    border: 2px solid #ccc; /* Tambahkan border */
+    border-radius: 8px; /* Tambahkan radius sudut */
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    width: 250px;
+    background-color: white;
+}
+
+.info-kontak h4{
+    padding: 10px 0;
+}
+
+.info-kontak .telepon a{
+    text-decoration: none;
+    color: white;
+    background-color: #0E3124;
+    font-family: "Poppins", sans-serif;
+    display: inline-block;
+    padding: 10px 40px;
+    border: 2px solid #0E3124;
+    border-radius: 5px;
+}
+
+.info-kontak .nomer{
+    padding-top: 20px;
+}
+
+.info-kontak .rute a{
+    text-decoration: none;
+    color: white;
+    background-color: #0E3124;
+    font-family: "Poppins", sans-serif;
+    display: inline-block;
+    padding: 10px 40px;
+    border: 2px solid #0E3124;
+    border-radius: 5px;
+}
+
+.info-kontak .alamat-lengkap{
+    padding-top: 10px;
+}
+
+/* Footer */
+.logo-footer{
+    background-color: #0E3124;
+    padding: 1rem;
+}
+
+.logo-footer img{
+    width: 70px;
+    height: 70px;
+}
+
+.logo-footer a{
+    text-decoration: none;
+    color: white;
+    font-weight: 500;
+}
+
+.container-footer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding-top: 1rem;
+    background-color: #0E3124;
+    gap: 1rem;
+}
+
+.media-sosial a{
+    text-decoration: none;
+}
+
+.media-sosial i{
+    font-size: 40px;
+    color: white;
+    padding-right: 1rem;
+}
+
+.container1 a{
+    text-decoration: underline;
+    color: white;
+    font-family: "Poppins", sans-serif;
+    padding-right: 1rem;
+}
+
+.container2 a{
+    text-decoration: underline;
+    color: white;
+    font-family: "Poppins", sans-serif;
+    padding-right: 1rem;
+}
+
+.admin{
+    padding-top: 60px;
+    display: flex;
+    justify-content: flex-end;
+    background-color: #0E3124;
+    padding-right: 1rem;
+    padding-bottom: 1rem;
+}
+
+.admin a{
+    text-decoration: none;
+    color: white;
+    background-color: #0E3124;
+    font-family: "Poppins", sans-serif;
+    display: inline-block;
+    padding: 10px 40px;
+    border: 2px solid #ffffff;
+    border-radius: 5px;
+}
+
+/* Lapangan Badminton */
+.titlesewa h1{
+    display: flex;
+    justify-content: center;
+    padding-bottom: 1rem;
+}
+
+.container-lap {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    border: 1px solid #e0e0e0; /* Ubah warna border */
+    border-radius: 10px; /* Ubah radius sudut */
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Tambahkan shadow */
+    max-width: 1000px; /* Batasi lebar maksimum */
+    margin: 0 auto; /* Untuk membuatnya terpusat */
+    margin-top: 1rem;
+    margin-bottom: 2rem;
+}
+
+.container-lap .foto {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100px;
+    height: 100px;
+    border-radius:8px;
+    overflow: hidden; /* Agar gambar tidak keluar dari lingkaran */
+}
+
+.container-lap .foto img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Agar gambar terisi dengan baik dalam lingkaran */
+}
+
+.container-lap .btnpesan a{
+    text-decoration: none;
+    color: white;
+    background-color: #0E3124;
+    font-family: "Poppins", sans-serif;
+    display: inline-block;
+    padding: 10px 40px;
+    border: 2px solid #ffffff;
+    border-radius: 5px;
+}
+
+
+/* Responsive */
+@media screen and (max-width: 768px) {
+    nav ul {
+        display: none;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        text-align: center;
+    }
+
+    .main {
+        display: flex;
+        align-items: center;
+    }
+
+    .main .login,
+    .main .register {
+        display: block;
+        margin-right: 10px; /* Atur jarak antara tombol */
+    }
+
+    .main .icon {
+        display: block;
+    }
+
+    .login,
+    .register {
+        display: none;
+    }
+
+    /* Styling untuk icon hamburger */
+    .icon i {
+        cursor: pointer;
+        font-size: 24px; /* Sesuaikan ukuran ikon hamburger */
+        color: #333; /* Warna ikon */
+        /* ... tambahkan styling lainnya untuk tampilan icon hamburger ... */
+    }
+
+    /* Menampilkan daftar menu saat tombol hamburger di klik */
+    nav ul.show {
+        display: block;
+        background-color: #fff; /* Warna latar belakang menu */
+        padding: 20px; /* Padding agar konten terlihat lebih lega */
+        position: absolute;
+        top: 60px; /* Sesuaikan jarak menu dengan header */
+        left: 0;
+        right: 0;
+        z-index: 999; /* Pastikan menu muncul di atas konten lainnya */
+        box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.1); /* Efek bayangan untuk kejelasan */
+        border-radius: 8px; /* Memberikan radius sudut untuk tampilan lebih halus */
+    }
+
+    nav ul.show li {
+        margin-bottom: 15px; /* Jarak antar item menu */
+    }
+
+    nav ul.show a {
+        display: block;
+        font-size: 18px; /* Ukuran font */
+        color: #333; /* Warna teks */
+        text-decoration: none;
+        /* ... tambahkan styling lainnya untuk tampilan item menu ... */
+    }
+
+    /* Transisi untuk efek tampilan daftar menu */
+    nav ul {
+        transition: transform 0.3s ease-in-out;
+    }
+
+    nav ul li.dropdown{
+        padding-bottom: 8px;
+    }
+
+    nav ul li.dropdown .dropdown-content {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background-color: #fff;
+        box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.1);
+        border-radius: 0 0 8px 8px;
+        z-index: 999;
+        line-height: 8px;
+    }
+
+    /* Show sub-menu when parent li is hovered or focused */
+    nav ul li.dropdown .dropdown:hover .dropdown-content {
+        display: block;
+    }
+
+    .fotohomepage {
+        width: 100%; /* Memastikan gambar memenuhi lebar layar */
+        height: auto;
+    }
+
+    /* Testimoni */
+    .testimoni-container .testimoni-slide{
+        flex-direction: column;
+    }
+
+    .tulis-ulasan{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 2rem;
+        flex-direction: column;
+        background-color: #f4f4f4;
+    }
+
+    /* Kontak */
+    .info-kontak{
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        gap: 2rem;
+    }
+
+    /* Lapangan Badminton */
+    .container-lap {
+        flex-direction: column;
+        align-items: center;
+        padding: 10px;
+        width: 80%;
+    }
+
+    .container-lap .foto {
+        margin-bottom: 15px;
+    }
+}
