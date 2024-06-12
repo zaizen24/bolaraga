@@ -1,8 +1,5 @@
 <?php
-include_once("koneksi.php");
-
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Mendapatkan nilai dari form
     $idLapangan = $_POST['idLapangan'];
     $namaLapangan = $_POST['namaLapangan'];
     $jenisLapangan = $_POST['jenisLapangan'];
@@ -11,33 +8,40 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Proses file foto yang diunggah
     $fotoLapangan = $_FILES['fotoLapangan']['name'];
     $fotoLapangan_tmp = $_FILES['fotoLapangan']['tmp_name'];
-    $fotoLapangan_path = "../assets/images/lapangan/" . $fotoLapangan; // Ganti "direktori_tujuan/" dengan direktori penyimpanan yang diinginkan
-    $fotoLapangan_pathdb = "assets/images/lapangan/" . $fotoLapangan; // Ganti "direktori_tujuan/" dengan direktori penyimpanan yang diinginkan
+    $fotoLapangan_path = "../assets/images/lapangan/" . $fotoLapangan;
+    $fotoLapangan_pathdb = "assets/images/lapangan/" . $fotoLapangan;
 
-    // Hapus foto lama jika ada
-    $sql_get_foto = "SELECT foto FROM lapangan WHERE id_lap = '$idLapangan'";
-    $result_get_foto = mysqli_query($conn, $sql_get_foto);
-    $row_get_foto = mysqli_fetch_assoc($result_get_foto);
-    $fotoLama = $row_get_foto['foto'];
-    if ($fotoLama != "") {
-        unlink("../" . $fotoLama); // Ganti "direktori_tujuan/" dengan direktori penyimpanan yang digunakan
-    }
-
-    // Pindahkan foto baru ke direktori penyimpanan
     move_uploaded_file($fotoLapangan_tmp, $fotoLapangan_path);
 
-    // Proses update data di database
-    $sql = "UPDATE lapangan SET nama_lap = '$namaLapangan', id_jenis = '$jenisLapangan', harga = '$harga', foto = '$fotoLapangan_pathdb' WHERE id_lap = '$idLapangan'";
+    $lapanganData = [
+        "id_lap" => $idLapangan,
+        "nama_lap" => $namaLapangan,
+        "id_jenis" => $jenisLapangan,
+        "harga" => $harga,
+        "foto" => $fotoLapangan_pathdb
+    ];
 
-    if (mysqli_query($conn, $sql)) {
-        echo '<script>alert("Data lapangan berhasil diperbarui.");</script>';
-        echo '<script>window.location.href = "dashboard.php";</script>';
+    $jsonLapanganData = json_encode($lapanganData);
+
+    $ch = curl_init('http://localhost:5001/api/Lapangan');
+    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonLapanganData);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+        'Content-Type: application/json',
+        'Content-Length: ' . strlen($jsonLapanganData))
+    );
+
+    $response = curl_exec($ch);
+    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    $curlError = curl_error($ch); // Tambahan untuk menangkap kesalahan curl
+    curl_close($ch);
+
+    // Menampilkan respon dan kode status untuk debugging
+    if ($httpCode == 200 || $httpCode == 201 || $httpCode == 204) {
+        echo "Data lapangan berhasil diperbarui.";
     } else {
-        echo '<script>alert("Terjadi kesalahan: " . mysqli_error($conn)");</script>';
-        echo '<script>window.location.href = "dashboard.php";</script>';
+        echo "Gagal memperbarui data lapangan. Kode HTTP: $httpCode. Respon: $response. Curl Error: $curlError";
     }
-} else {
-    echo '<script>alert("Metode tidak diizinkan.");</script>';
-    echo '<script>window.location.href = "dashboard.php";</script>';
 }
 ?>

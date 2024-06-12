@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Space Sport Admin</title>
+    <title>Bolaraga Admin</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" href="../assets/images/logo.png" type="image">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -32,12 +32,10 @@
 <body>
     <?php
     session_start();
-    // Periksa apakah sesi admin telah terinisialisasi dan sesuai
     if (!isset($_SESSION['alogin'])) {
-        // Sesi admin belum ada atau tidak terdefinisi
         echo '<script>alert("Anda harus login terlebih dahulu untuk mengakses halaman ini.");</script>';
         echo '<script>window.location.href = "index.php";</script>';
-        exit; // Pastikan untuk menghentikan eksekusi lebih lanjut setelah redirect
+        exit;
     }
     ?>
     <div id="preloader">
@@ -46,63 +44,42 @@
     <!-- preloader area end -->
     <!-- page container area start -->
     <div class="page-container">
-        <?php
-		include_once("sidebar.php");
-		?>
-        <!-- main content area start -->
-        <?php
-include_once("koneksi.php"); // Menghubungkan ke database
+        <?php include_once("sidebar.php"); ?>
 
-// Query untuk mengambil data dari tabel users
-$sql = "SELECT * FROM users";
-$result = mysqli_query($conn, $sql);
-?>
+        <div class="main-content">
+            <?php include_once("header.php"); ?>
 
-<div class="main-content-inner">
-    <div class="row">
-        <!-- data table start -->
-        <div class="col-12 mt-5">
-            <div class="card">
-                <div class="card-body">
-                    <h4 class="header-title">Data User</h4>
-                    <div class="data-tables">
-                        <table id="dataTable" class="text-center">
-                            <thead class="bg-light text-capitalize">
-                                <tr>
-                                    <th>ID User</th>
-                                    <th>Username</th>
-                                    <th>Password</th>
-                                    <th>Nomor Telepon</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php
-                                // Tampilkan data dalam tabel HTML
-                                while ($row = mysqli_fetch_assoc($result)) {
-                                    echo "
-                                        <tr>
-                                            <td>" . $row['id_user'] . "</td>
-                                            <td>" . $row['username'] . "</td>
-                                            <td>" . $row['password'] . "</td>
-                                            <td>" . $row['nomor'] . "</td>
-                                        </tr>
-                                    ";
-                                }
-                                ?>
-                            </tbody>
-                        </table>
+            <div class="main-content-inner">
+                <div class="row">
+                    <!-- data table start -->
+                    <div class="col-12 mt-5">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="header-title">Data User</h4>
+                                <div class="data-tables">
+                                    <table id="dataTable" class="text-center">
+                                        <thead class="bg-light text-capitalize">
+                                            <tr>
+                                                <th>ID User</th>
+                                                <th>Username</th>
+                                                <th>Password</th>
+                                                <th>Nomor Telepon</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="userData">
+                                            <!-- Data akan dimuat di sini oleh JavaScript -->
+                                        </tbody>
+                                    </table>    
+                                </div>
+                            </div>
+                        </div>
                     </div>
+                    <!-- data table end -->
                 </div>
             </div>
         </div>
-        <!-- data table end -->
     </div>
-</div>
 
-<?php
-// Tutup koneksi database
-mysqli_close($conn);
-?>
     <!-- jquery latest version -->
     <script src="assets/js/vendor/jquery-2.2.4.min.js"></script>
     <!-- bootstrap 4 js -->
@@ -122,6 +99,31 @@ mysqli_close($conn);
     <!-- others plugins -->
     <script src="assets/js/plugins.js"></script>
     <script src="assets/js/scripts.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            fetch('proxy/proxy_user.php')
+                .then(response => response.json())
+                .then(data => {
+                    const userData = document.getElementById('userData');
+                    userData.innerHTML = '';
+
+                    data.forEach(user => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${user.id_User}</td>
+                            <td>${user.username}</td>
+                            <td>${user.password}</td>
+                            <td>${user.nomor}</td>
+                        `;
+                        userData.appendChild(row);
+                    });
+
+                    $('#dataTable').DataTable();
+                })
+                .catch(error => console.error('Error fetching data:', error));
+        });
+    </script>
 </body>
 
 </html>

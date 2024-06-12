@@ -61,53 +61,38 @@
     <!-- preloader area end -->
     <!-- page container area start -->
     <div class="page-container">
-		<?php
-		include_once("sidebar.php");
-		?>
-        <!-- main content area start -->
+        <?php include_once("sidebar.php"); ?>
         <div class="main-content">
+            <?php include_once("header.php"); ?>
+            <?php include_once("koneksi.php"); ?>
             <?php
-			    include_once("header.php");
-			?>
-            <?php
-                include_once("koneksi.php");
                 $sql = "SELECT * FROM lapangan";
                 $result = mysqli_query($conn, $sql);
             ?>
-
             <div class="container mt-4">
                 <h2>Update Lapangan</h2>
-                <form action="proses_updatelapangan.php" enctype="multipart/form-data" method="POST">
-                <div class="form-group mt-3">
-                    <label for="idLapangan">ID Lapangan</label>
-                    <select class="form-control p-2" id="idLapangan" name="idLapangan">
-                        <?php
-
-                        while ($row = mysqli_fetch_assoc($result)) {
-                            echo '<option value="' . $row['id_lap'] . '">' . $row['id_lap'] . '</option>';
-                        }
-                        ?>
-                    </select>
-                </div>
-                
+                <form id="updateForm" enctype="multipart/form-data" method="POST">
+                    <div class="form-group mt-3">
+                        <label for="idLapangan">ID Lapangan</label>
+                        <select class="form-control p-2" id="idLapangan" name="idLapangan">
+                            <?php while ($row = mysqli_fetch_assoc($result)) {
+                                echo '<option value="' . $row['id_lap'] . '">' . $row['id_lap'] . '</option>';
+                            } ?>
+                        </select>
+                    </div>
                     <div class="form-group">
                         <label for="namaLapangan">Nama Lapangan</label>
                         <input type="text" class="form-control" id="namaLapangan" name="namaLapangan" placeholder="Masukkan Nama Lapangan yang Baru" required>
                     </div>
-
                     <div class="form-group">
                         <label for="jenisLapangan">Jenis Lapangan</label>
                         <select class="form-control p-2" id="jenisLapangan" name="jenisLapangan">
-                        <?php
-                        // Query untuk mengambil data dari tabel jenis
-                        $sql_jenis = "SELECT * FROM jenis";
-                        $result_jenis = mysqli_query($conn, $sql_jenis);
-
-                        // Menampilkan pilihan jenis lapangan dari hasil query tabel jenis
-                        while ($row_jenis = mysqli_fetch_assoc($result_jenis)) {
-                            echo '<option value="' . $row_jenis['id_jenis'] . '">' . $row_jenis['nama_jenis'] . '</option>';
-                        }
-                        ?>
+                            <?php
+                            $sql_jenis = "SELECT * FROM jenis";
+                            $result_jenis = mysqli_query($conn, $sql_jenis);
+                            while ($row_jenis = mysqli_fetch_assoc($result_jenis)) {
+                                echo '<option value="' . $row_jenis['id_jenis'] . '">' . $row_jenis['nama_jenis'] . '</option>';
+                            } ?>
                         </select>
                     </div>
                     <div class="form-group">
@@ -120,23 +105,40 @@
                             <input type="file" class="custom-file-input" id="fotoLapangan" name="fotoLapangan" required onchange="updateFileName()">
                             <label class="custom-file-label" for="fotoLapangan" id="custom-file-label">Pilih file</label>
                         </div>
-                        
                     </div>
                     <button type="submit" class="btn btn-primary">Update Lapangan</button>
                 </form>
             </div>
-
-
         </div>
-        <!-- main content area end -->
     </div>
-    <!-- page container area end -->
 
     <script>
     function updateFileName() {
         const fileName = document.getElementById('fotoLapangan').files[0].name;
         document.getElementById('custom-file-label').innerText = fileName;
     }
+    
+    $(document).ready(function(){
+        $('#updateForm').on('submit', function(e){
+            e.preventDefault();
+            var formData = new FormData(this);
+            
+            $.ajax({
+                url: 'proses_updatelapangan.php',
+                type: 'POST',
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function(response) {
+                    alert(response);
+                    window.location.href = "dashboard.php";
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    alert('Error: ' + textStatus + ' - ' + errorThrown);
+                }
+            });
+        });
+    });
     </script>
     <!-- jquery latest version -->
     <script src="assets/js/vendor/jquery-2.2.4.min.js"></script>
@@ -160,7 +162,7 @@
 
     
     <!-- Bootstrap JS and jQuery -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+     <!-- Load the full version of jQuery -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 </body>

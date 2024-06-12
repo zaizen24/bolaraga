@@ -64,45 +64,47 @@ include("login.php");
                 </div>
             <?php } ?>
 
-        <div class="popup-logres" id="loginPopup">
-            <div class="popup-content">
-                <span class="close-btn" onclick="hidePopup('loginPopup')">&times;</span>
-                <h2>Masuk</h2>
-                <a href=""><h6>Belum punya akun? Daftar</h6></a>
-                <form action="login.php" id="loginForm" method="POST">
-                    <div class="form-group">
-                        <input type="text" id="username" name="username" placeholder="Enter your username" required>
-                    </div>
-                    <div class="form-group">
-                        <input type="password" id="password" name="password" placeholder="Enter your password" required>
-                    </div>
-                    <button name="login" type="submit">Log In</button>
-                </form>
+            <div class="popup-logres" id="loginPopup">
+                <div class="popup-content">
+                    <span class="close-btn" onclick="hidePopup('loginPopup')">&times;</span>
+                    <h2>Masuk</h2>
+                    <a href=""><h6>Belum punya akun? Daftar</h6></a>
+                    <form action="login.php" id="loginForm" method="POST">
+                        <div class="form-group">
+                            <input type="text" id="username" name="username" placeholder="Enter your username" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="password" id="password" name="password" placeholder="Enter your password" required>
+                        </div>
+                        <button name="login" type="submit">Log In</button>
+                    </form>
+                </div>
             </div>
-        </div>
+
 
         <div class="popup-logres" id="registerPopup">
-            <div class="popup-content">
+        <div class="popup-content">
             <span class="close-btn" onclick="hidePopup('registerPopup')">&times;</span>
-                <h2>Daftar</h2>
-                <a href=""><h6>Sudah punya akun? Login</h6></a>
-                <form action="register.php" method="POST">
-                    <div class="form-group">
-                        <input type="text" id="username" name="username" placeholder="Enter your username" required>
-                    </div>
-                    <div class="form-group">
-                        <input type="password" id="password" name="password" placeholder="Enter your password" required>
-                    </div>
-                    <div class="form-group">
-                        <input type="email" id="email" name="email" placeholder="Enter your email" required>
-                    </div>
-                    <div class="form-group">
-                        <input type="number1" id="nomor" name="nomor" placeholder="Enter your phone number" required>
-                    </div>
-                    <button name="register" type="submit">Register</button>
-                </form>
-            </div>
+            <h2>Daftar</h2>
+            <a href=""><h6>Sudah punya akun? Login</h6></a>
+            <form action="register.php" method="POST">
+                <div class="form-group">
+                    <input type="text" id="username" name="username" placeholder="Enter your username" required>
+                </div>
+                <div class="form-group">
+                    <input type="password" id="password" name="password" placeholder="Enter your password" required>
+                </div>
+                <div class="form-group">
+                    <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                </div>
+                <div class="form-group">
+                    <input type="text" id="nomor" name="nomor" placeholder="Enter your phone number" required>
+                </div>
+                <button name="register" type="submit">Register</button>
+            </form>
         </div>
+    </div>
+
     </nav>
     <script src="assets/js/scroll.js"></script>
 </body>

@@ -57,30 +57,19 @@
     <div id="preloader">
         <div class="loader"></div>
     </div>
-    <!-- preloader area end -->
-    <!-- page container area start -->
     <div class="page-container">
-		<?php
-		include_once("sidebar.php");
-		?>
-        <!-- main content area start -->
+        <?php include_once("sidebar.php"); ?>
         <div class="main-content">
+            <?php include_once("header.php"); ?>
             <?php
-			    include_once("header.php");
-			?>
-            <?php
-                include_once("koneksi.php");
-
+            include_once("koneksi.php");
             $sql = "SELECT lapangan.*, jenis.*
-            FROM lapangan
-            JOIN jenis ON lapangan.id_jenis = jenis.id_jenis;
-            ";
+                    FROM lapangan
+                    JOIN jenis ON lapangan.id_jenis = jenis.id_jenis;";
             $result = mysqli_query($conn, $sql);
             ?>
-
             <div class="main-content-inner">
                 <div class="row">
-                    <!-- data table start -->
                     <div class="col-12 mt-5">
                         <div class="card">
                             <div class="card-body">
@@ -96,12 +85,11 @@
                                         </thead>
                                         <tbody>
                                             <?php
-                                            // Tampilkan data dalam tabel HTML
                                             while ($row = mysqli_fetch_assoc($result)) {
                                                 echo "
                                                     <tr>
                                                         <td>" . $row['id_lap'] . "</td>
-                                                        <td> " . $row['nama_lap'] . "</td>
+                                                        <td>" . $row['nama_lap'] . "</td>
                                                         <td>
                                                             <form method='POST' action='proses_hapuslapangan.php'>
                                                                 <input type='hidden' name='idLapangan' value='" . $row['id_lap'] . "'>
@@ -118,12 +106,9 @@
                             </div>
                         </div>
                     </div>
-                    <!-- data table end -->
                 </div>
             </div>
-
         </div>
-        <!-- main content area end -->
     </div>
     <!-- page container area end -->
     <script>

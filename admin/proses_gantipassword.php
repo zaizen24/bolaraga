@@ -1,52 +1,43 @@
 <?php
 session_start();
-// Pastikan koneksi ke database sudah dilakukan
-include_once("koneksi.php"); // Menghubungkan ke database
+include_once("koneksi.php");
 
 // Ambil data yang dikirim dari form
 $passwordLama = $_POST['passwordLama'];
 $passwordBaru = $_POST['passwordBaru'];
 $konfirmasiPassword = $_POST['konfirmasiPassword'];
 
-// Ambil username admin dari session atau form (sesuaikan dengan cara login admin)
+// Ambil username admin dari session
 $usernameAdmin = $_SESSION['alogin'];
 
-// Query untuk mengambil password admin dari database
-$sql = "SELECT password FROM admin WHERE username='$usernameAdmin'";
-$result = mysqli_query($conn, $sql);
+// Data untuk dikirim ke API
+$data = [
+    'Username' => $usernameAdmin,
+    'OldPassword' => $passwordLama,
+    'NewPassword' => $passwordBaru,
+    'ConfirmNewPassword' => $konfirmasiPassword
+];
 
-if ($result) {
-    $row = mysqli_fetch_assoc($result);
-    $savedPassword = $row['password'];
+$ch = curl_init('http://localhost:5001/api/Admin/ChangePassword');
+curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($ch, CURLOPT_HTTPHEADER, [
+    'Content-Type: application/json',
+    'Content-Length: ' . strlen(json_encode($data))
+]);
+curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
 
-    // Cocokkan password lama yang dimasukkan admin dengan password di database
-    if ($passwordLama === $savedPassword) {
-        // Periksa apakah password baru dan konfirmasi password cocok
-        if ($passwordBaru === $konfirmasiPassword) {
-            // Update password baru ke dalam database
-            $updateSql = "UPDATE admin SET password='$passwordBaru' WHERE username='$usernameAdmin'";
-            $updateResult = mysqli_query($conn, $updateSql);
+$response = curl_exec($ch);
+$httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+$curlError = curl_error($ch);
+curl_close($ch);
 
-            if ($updateResult) {
-                echo '<script>alert("Password berhasil diubah.");</script>';
-                echo '<script>window.location.href = "ganti_password.php";</script>';
-            } else {
-                echo '<script>alert("Gagal mengubah password. Silakan coba lagi.");</script>';
-                echo '<script>window.location.href = "ganti_password.php";</script>';
-            }
-        } else {
-            echo '<script>alert("Password baru dan konfirmasi password tidak cocok.");</script>';
-            echo '<script>window.location.href = "ganti_password.php";</script>';
-        }
-    } else {
-        echo '<script>alert("Password lama yang Anda masukkan tidak cocok.");</script>';
-        echo '<script>window.location.href = "ganti_password.php";</script>';
-    }
+if ($httpCode == 200) {
+    echo '<script>alert("Password berhasil diubah.");</script>';
+    echo '<script>window.location.href = "ganti_password.php";</script>';
 } else {
-    echo '<script>alert("Gagal mengambil data admin");</script>';
+    $responseMessage = json_decode($response, true)['message'];
+    echo '<script>alert("Gagal mengubah password: ' . $responseMessage . '");</script>';
     echo '<script>window.location.href = "ganti_password.php";</script>';
 }
-
-// Tutup koneksi database
-mysqli_close($conn);
 ?>

@@ -8,7 +8,7 @@
 <body>
     <div class="logo-footer">
         <img src="assets/images/logo.png" alt="">
-        <a href="">Space Sport</a>
+        <a href="">Bolaraga</a>
     </div>
 
     <div class="container-footer">

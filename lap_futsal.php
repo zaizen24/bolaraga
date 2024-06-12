@@ -1,12 +1,9 @@
-<?php require_once 'koneksi.php'; 
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Space Sport</title>
+    <title>Bolaraga</title>
     <link rel="icon" href="assets/images/logo.png" type="image">
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
@@ -14,36 +11,53 @@
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
 </head>
 <body>
-    <?php
-    include_once("header.php");
-    ?>
+    <?php include_once("header.php"); ?>
+
     <div class="titlesewa">
         <h1>Sewa Lapangan Futsal</h1>
     </div>
-    <?php
-    $sql = 'SELECT * FROM lapangan where id_jenis = "2"';
-    $hasil = mysqli_query($conn, $sql);
+    
+    <div id="lapanganContainer"></div>
 
-    while ($row = mysqli_fetch_assoc($hasil)) {
-    ?>
-        <div class="container-lap">
-            <div class="foto">
-                <img src="<?= $row["foto"] ?>" alt="">
-            </div>
-            <div class="nama-lap">
-                <h3><?= $row["nama_lap"] ?></h3>
-            </div>
-            <div class="harga-lap">
-                <h3><?= "Rp. " . $row["harga"] ?></h3>
-            </div>
-            <div class="btnpesan">
-                <a href="pemesanan.php?id_lap=<?= $row['id_lap'] ?>">Pesan</a>
-            </div>
-        </div>
-    <?php
-    }
-    include_once("footer.php");
-    ?>
-    <script src="assets/js/script.js"></script>
+    <?php include_once("footer.php"); ?>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            fetch('proxy/proxy_lapangan.php')
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);  // Log the data to verify it
+                    const container = document.getElementById('lapanganContainer');
+                    
+                    data.forEach(lapangan => {
+                        // Filter only lapangan with id_jenis 1 (badminton)
+                        if (lapangan.id_jenis === 2) {
+                            const lapanganElement = document.createElement('div');
+                            lapanganElement.className = 'container-lap';  // Match the class name with your PHP code
+
+                            lapanganElement.innerHTML = `
+                                <div class="foto">
+                                    <img src="${lapangan.foto}" alt="${lapangan.nama_lap}">
+                                </div>
+                                <div class="content">
+                                    <div class="nama-lap">
+                                        <h3>${lapangan.nama_lap}</h3>
+                                    </div>
+                                    <div class="harga-lap">
+                                        <h3>Rp. ${lapangan.harga}</h3>
+                                    </div>
+                                </div>
+                                <div class="btnpesan">
+                                    <a href="pemesanan.php?id_lap=${lapangan.id_lap}">Pesan</a>
+                                </div>
+                            `;
+
+                            container.appendChild(lapanganElement);
+                        }
+                    });
+                })
+                .catch(error => console.error('Error fetching data:', error));
+        });
+    </script>
 </body>
 </html>
