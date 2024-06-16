@@ -42,7 +42,6 @@
                 .then(data => {
                     if (data.error) {
                         alert(data.error);
-                        window.location.href = 'login.php';
                         return;
                     }
                     const bookingData = document.getElementById('bookingData');
